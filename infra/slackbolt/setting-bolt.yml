@@ -27,7 +27,7 @@
         - 'npm'
         - 'nodejs'
 
-    - name: git clone wordpress
+    - name: git clone slack-bolt
       git:
         repo: https://{{ GIT.ID }}:{{ GIT.PASS }}@github.com/hosokawanaoki/slack_apps.git
         dest: "{{ SLACK.PATH }}"
@@ -52,4 +52,8 @@
     - name: Sets setting file
       template :
         src: "{{ SLACK.SETTING }}"
-        dest: "{{ SETTING_PATH }}"
+        dest: "{{ SLACK.SETTING_PATH }}"
+
+    - name: Install packages based on package.json.
+      npm:
+        path: "{{ SLACK.PATH }}/src"

@@ -1,5 +1,6 @@
 const { App } = require('@slack/bolt');
 const yaml = require('js-yaml');
+const fs = require('fs')
 const yamlText = fs.readFileSync('setting.yml', 'utf8')
 const chatwork = require('chatwork-client');
 

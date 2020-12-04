@@ -1,7 +1,7 @@
 server {
         listen 80;
-        server_name {{ PORTAL.DOMAIN }};
-        return 301 https://{{ PORTAL.DOMAIN }}$request_uri;
+        server_name {{ SLACK.DOMAIN }};
+        return 301 https://{{ SLACK.DOMAIN }}$request_uri;
 }
 server {
         listen 443;
