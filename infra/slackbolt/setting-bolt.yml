@@ -1,0 +1,55 @@
+
+- hosts: all
+  become: true
+  remote_user: root
+  gather_facts: no
+
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  tasks:
+    - name: apt update
+      apt:
+        update_cache: yes
+
+    - name: apt upgrade
+      apt:
+        upgrade: yes
+  
+    - name: apt install
+      apt:
+        name:
+          - vim
+          - aptitude
+    
+    - name: Install npm Packages
+      apt: name={{ item }} update_cache=yes state=latest
+      loop: 
+        - 'npm'
+        - 'nodejs'
+
+    - name: git clone wordpress
+      git:
+        repo: https://{{ GIT.ID }}:{{ GIT.PASS }}@github.com/hosokawanaoki/slack_apps.git
+        dest: "{{ SLACK.PATH }}"
+        update: no
+
+    - name: Sets Nginx conf file
+      template :
+        src: "{{ SLACK.CONF }}"
+        dest: "/etc/nginx/sites-available/{{ SLACK.DOMAIN }}.conf"
+
+    - name: Enables new site
+      file:
+        src: "/etc/nginx/sites-available/{{ SLACK.DOMAIN }}.conf"
+        dest: "/etc/nginx/sites-enabled/{{ SLACK.DOMAIN }}.conf"
+        state: link
+
+    - name: reload nginx
+      service:
+        name: nginx
+        state: reloaded
+
+    - name: Sets setting file
+      template :
+        src: "{{ SLACK.SETTING }}"
+        dest: "{{ SETTING_PATH }}"
