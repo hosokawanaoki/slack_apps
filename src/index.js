@@ -36,7 +36,6 @@ const app = new App({
 
 function sendToMychat(message) {
     findUser(message.user).then((user) => {
-        console.log(message)
         let chatworkParams = {
             chatworkToken: SETTING.TOKEN,
             roomId: SETTING.OUT_ROOM_ID,
@@ -74,8 +73,6 @@ function regexMention(text) {
     match_list.forEach(match => {
         var user_id = match.replace(/<@/g, '').replace(/>/g, '')
         var user = user_list[user_id]
-        console.log(user_id)
-        console.log(user)
         if (user) {
             text = text.replace(match, 'TO : ' + user.real_name);
         }
