@@ -57,3 +57,8 @@
     - name: Install packages based on package.json.
       npm:
         path: "{{ SLACK.PATH }}/src"
+
+    - name: Install pm2 global 
+      npm:
+        name: "pm2"
+        global: yes
