@@ -10,7 +10,7 @@ server {
         ssl on;
         server_name {{ SLACK.DOMAIN }};
         location / {
-                proxy_pass http://127.0.0.1:3001/;
+                proxy_pass http://127.0.0.1:{{SLACK.PORT}}/;
         }
 
         ssl_certificate /etc/letsencrypt/live/party-sanseito.com/fullchain.pem;
