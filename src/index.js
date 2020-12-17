@@ -38,7 +38,7 @@ function sendToMychat(message) {
     findUser(message.user).then((user) => {
         let chatworkParams = {
             chatworkToken: SETTING.TOKEN,
-            roomId: SETTING.OUT_ROOM_ID,
+            roomId: SETTING.ROOM[message.channel],
             msg: editmessage(message, user)
         };
         chatwork.init(chatworkParams);
@@ -81,7 +81,8 @@ function regexMention(text) {
 }
 
 app.message('', async ({ message }) => {
-    if (message.channel == SETTING.IN_ROOM_ID) {
+
+    if (message.channel in SETTING.ROOM) {
         sendToMychat(message);
     }
 });
