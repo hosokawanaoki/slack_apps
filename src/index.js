@@ -59,10 +59,9 @@ function editmessage(message, user) {
     // ユーザーID　抽出
 
     var trimed_body = regexMention(message.text)
-    // message_result = trimed_text + '\n' + '-- ' + user.real_name + '  ' + ts_str
-    //     + '\n[hr] [info]タイトル[/info]内容slack より転載 slackの閲覧方法はこちら'
+    trimed_body = regexUrl(trimed_body)
     message_result = '[info][title]' + user.real_name + '   ' + time_string + '[/title]\n'
-        + trimed_body + '[/info]\n' + '[hr]' + 'slack より転載 slackの閲覧方法はこちら'
+        + trimed_body + '[/info]' + 'slack より転載 slackの閲覧方法はこちら'
     return message_result;
 }
 
@@ -78,6 +77,18 @@ function regexMention(text) {
         if (user) {
             text = text.replace(match, 'TO : ' + user.real_name);
         }
+    });
+    return text
+}
+
+function regexUrl(text) {
+    const regex = /<http.*?>/g;
+    const match_list = text.match(regex);
+    if (!match_list) {
+        return text
+    }
+    match_list.forEach(match => {
+        text = match.replace(/<http/g, 'http').replace(/>/g, '')
     });
     return text
 }
