@@ -55,12 +55,14 @@ function sendToMychat(message) {
 function editmessage(message, user) {
 
     // ミリ秒切り捨てて時間に変換
-    var ts_str = moment.unix(Math.floor(message.ts)).local().format('MM-DD HH:mm:ss')
+    var time_string = moment.unix(Math.floor(message.ts)).local().format('MM月DD日 HH:mm:ss')
     // ユーザーID　抽出
 
-    var trimed_text = regexMention(message.text)
-    message_result = trimed_text + '\n' + '-- ' + user.real_name + '  ' + ts_str
-        + '\nslack より転載 slackの閲覧方法はこちら'
+    var trimed_body = regexMention(message.text)
+    // message_result = trimed_text + '\n' + '-- ' + user.real_name + '  ' + ts_str
+    //     + '\n[hr] [info]タイトル[/info]内容slack より転載 slackの閲覧方法はこちら'
+    message_result = '[info][title]' + user.real_name + '   ' + time_string + '[/title]\n'
+        + trimed_body + '[/info]\n' + '[hr]' + 'slack より転載 slackの閲覧方法はこちら'
     return message_result;
 }
 
@@ -81,7 +83,7 @@ function regexMention(text) {
 }
 
 app.message('', async ({ message }) => {
-
+    console.log(message)
     if (message.channel in SETTING.ROOM) {
         sendToMychat(message);
     }

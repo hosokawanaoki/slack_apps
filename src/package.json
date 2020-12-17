@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prod-start": "pm2 start index.js --name prod-slack-bot",
+    "prod-stop": "pm2 stop --name prod-slack-bot",
+    "dev-start": "pm2 start index.js --name dev-slack-bot --watch",
+    "dev-stop": "pm2 stop --name dev-slack-bot"
   },
   "author": "",
   "license": "ISC",
@@ -13,6 +17,7 @@
     "chatwork-client": "^1.0.12",
     "js-yaml": "^3.14.0",
     "moment": "^2.29.1",
+    "nodemon": "^2.0.6",
     "pm2": "^4.5.0"
   }
 }
