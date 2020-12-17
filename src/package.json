@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prod-start": "pm2 start index.js --name prod-slack-bot",
-    "prod-stop": "pm2 stop --name prod-slack-bot",
+    "prod-stop": "pm2 stop prod-slack-bot",
     "dev-start": "pm2 start index.js --name dev-slack-bot --watch",
     "dev-stop": "pm2 stop --name dev-slack-bot"
   },
