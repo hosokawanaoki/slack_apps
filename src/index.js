@@ -62,7 +62,7 @@ function editmessage(message, user) {
     trimed_body = regexUrl(trimed_body)
     message_result = '[info][title]' + user.real_name + '   ' + time_string + '[/title]\n'
         + trimed_body + '[/info]' + 'slack(https://' + SETTING.URI + '/archives/'
-        + message.channel + ') の転載です。 slackの閲覧方法は問い合わせください'
+        + message.channel + ') の転載です。\n slackの閲覧方法は問い合わせください'
     return message_result;
 }
 
