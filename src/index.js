@@ -61,7 +61,8 @@ function editmessage(message, user) {
     var trimed_body = regexMention(message.text)
     trimed_body = regexUrl(trimed_body)
     message_result = '[info][title]' + user.real_name + '   ' + time_string + '[/title]\n'
-        + trimed_body + '[/info]' + 'slack より転載 slackの閲覧方法はこちら'
+        + trimed_body + '[/info]' + 'slack(https://' + SETTING.URI + 'sanseito.slack.com/archives/'
+        + message.team + ') の転載です。 slackの閲覧方法は問い合わせください'
     return message_result;
 }
 
