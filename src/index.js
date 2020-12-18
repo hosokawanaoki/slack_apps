@@ -89,7 +89,8 @@ function regexUrl(text) {
         return text
     }
     match_list.forEach(match => {
-        text = match.replace(/<http/g, 'http').replace(/>/g, '')
+        trim_text = match.replace(/<http/g, 'http').replace(/>/g, '')
+        text = text.replace(match, trim_text)
     });
     return text
 }
