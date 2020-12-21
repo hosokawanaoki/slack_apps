@@ -34,22 +34,24 @@ const app = new App({
 })();
 
 
-function sendToMychat(message) {
+function sendToMychat(message, cw_chanels) {
     findUser(message.user).then((user) => {
-        let chatworkParams = {
-            chatworkToken: SETTING.TOKEN,
-            roomId: SETTING.ROOM[message.channel],
-            msg: editmessage(message, user)
-        };
-        chatwork.init(chatworkParams);
-        chatwork.postRoomMessages()
-            .then((data) => {
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    })
 
+        cw_chanels.forEach(chanel => {
+            let chatworkParams = {
+                chatworkToken: SETTING.TOKEN,
+                roomId: chanel,
+                msg: editmessage(message, user)
+            };
+            chatwork.init(chatworkParams);
+            chatwork.postRoomMessages()
+                .then((data) => {
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        });
+    });
 }
 
 function editmessage(message, user) {
@@ -60,6 +62,7 @@ function editmessage(message, user) {
 
     var trimed_body = regexMention(message.text)
     trimed_body = regexUrl(trimed_body)
+    trimed_body = regexQuote(trimed_body)
     message_result = '[info][title]' + user.real_name + '   ' + time_string + '[/title]\n'
         + trimed_body + '[/info]' + 'slack(https://' + SETTING.URI + '/archives/'
         + message.channel + ') の転載です。\nslackの閲覧方法は問い合わせください'
@@ -95,10 +98,22 @@ function regexUrl(text) {
     return text
 }
 
+function regexQuote(text) {
+    const regex = /&gt;/g;
+    const match_list = text.match(regex);
+    if (!match_list) {
+        return text
+    }
+    match_list.forEach(match => {
+        trim_text = match.replace(/&gt;/g, '>')
+        text = text.replace(match, trim_text)
+    });
+    return text
+}
 app.message('', async ({ message }) => {
-    console.log(message)
-    if (message.channel in SETTING.ROOM) {
-        sendToMychat(message);
+    if (Object.keys(SETTING.ROOM).includes(message.channel)) {
+        cw_chanels = SETTING.ROOM[message.channel]
+        sendToMychat(message, cw_chanels);
     }
 });
 
