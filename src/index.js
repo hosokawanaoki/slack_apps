@@ -93,6 +93,10 @@ function regexUrl(text) {
     }
     match_list.forEach(match => {
         trim_text = match.replace(/<http/g, 'http').replace(/>/g, '')
+        // slackでのリンク省略を無効化する。
+        if (trim_text.indexOf("|") >= 0) {
+            trim_text = trim_text.substring(0, trim_text.indexOf("|"));
+        }
         text = text.replace(match, trim_text)
     });
     return text
